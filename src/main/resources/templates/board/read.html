@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout/layout.html}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AdminLTE 3 | Dashboard</title>
+</head>
+
+
+<div layout:fragment="content">
+  <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="card">
+                    <div class="card-header">
+                      <h3 class="card-title">Regist Form</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                      <div class="row">
+                        <!-- left column -->
+                        <div class="col-md-12">
+                          <!-- general form elements -->
+                          <div class="card card-primary">
+                            <div class="card-header">
+                              <h3 class="card-title">Quick Example</h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <!-- form start -->
+                            <form class="actionForm">
+
+                                  <input type="hidden" class="form-control" name="bno" readonly
+                                  th:value="${board.bno}">
+
+                              <div class="card-body">
+                                <div class="form-group">
+                                  <label>Title</label>
+                                  <input type="text" class="form-control" name="title" readonly
+                                  th:value="${board.title}">
+                                </div>
+
+                                <div class="form-group">
+                                  <label>Content</label>
+                                  <input type="text" class="form-control" name="content" readonly
+                                  th:value="${board.content}">
+                                </div>
+
+                                <div class="form-group">
+                                  <label>Writer</label>
+                                  <input type="text" class="form-control" name="writer" readonly
+                                  th:value="${board.writer}">
+                                </div>
+                              </div>
+                              <!-- /.card-body -->
+              
+                              <div class="card-footer" th:data-bno=${board.bno}>
+                                  <a th:href="@{|/board/list?${pageRequestDTO.link}|}" class="btn btn-primary listBtn">
+                                      LIST</a>
+                                  <a th:href="@{|/board/modify/${board.bno}?${pageRequestDTO.link}|}" class="btn btn-info modifyBtn">
+                                    MODIFY</a>
+                                  <button type="submit" class="btn btn-danger deleteBtn">DELTE</button>
+                            </form>
+
+                              </div>
+                            </form>
+                          </div>
+                          <!-- /.card -->
+                        </div>
+                        <!--/.col (left) -->
+                      </div>
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer clearfix">
+                    </div>
+                  </div>
+                  <!-- /.card -->
+          </section>
+          <!-- /.content -->
+  </div>
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script src="/plugins/jquery/jquery.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="/plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- ChartJS -->
+<script src="/plugins/chart.js/Chart.min.js"></script>
+<!-- Sparkline -->
+<script src="/plugins/sparklines/sparkline.js"></script>
+<!-- JQVMap -->
+<script src="/plugins/jqvmap/jquery.vmap.min.js"></script>
+<script src="/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+<!-- jQuery Knob Chart -->
+<script src="/plugins/jquery-knob/jquery.knob.min.js"></script>
+<!-- daterangepicker -->
+<script src="/plugins/moment/moment.min.js"></script>
+<script src="/plugins/daterangepicker/daterangepicker.js"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- Summernote -->
+<script src="/plugins/summernote/summernote-bs4.min.js"></script>
+<!-- overlayScrollbars -->
+<script src="/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/dist/js/adminlte.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="/dist/js/demo.js"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<script src="/dist/js/pages/dashboard.js"></script>
+
+
+<script layout:fragment="script" th:inline="javascript">
+
+  const actionForm = document.querySelector(".actionForm");
+  const deleteBtn = document.querySelector(".deleteBtn");
+
+  const bno = [[${board.bno}]]
+
+  deleteBtn.addEventListener("click", e => {
+    // 이벤트 기본 동작(폼 제출)을 막기 위해
+    e.preventDefault();
+    e.stopPropagation();
+
+    actionForm.setAttribute("action", `/board/delete/${bno}`)
+    actionForm.setAttribute("method", `post`);
+    actionForm.submit();
+
+  },false)
+
+</script>
+
+</body>
+</html>

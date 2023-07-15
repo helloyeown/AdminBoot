@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.zerock.board.mappers.BoardMapper">
+
+
+<select id="getList" resultType="org.zerock.board.dto.BoardDTO">
+    select * from tbl_board where exist=true 
+    <if test="keyword !=null and types != null">
+        <trim perfix="and (" perfixOverrides="or" suffix=")">
+        <!-- 앞에 and ( 붙이고 )로 닫아줌, or가 필요 없을 때 or를 지워줌 -->
+            <foreach collection="types" item="type" seperator=" OR ">
+                <if test='type == "t"'>
+                    title like concat('%', #{keyword}, '%')
+                </if>
+                <if test='type == "c"'>
+                    content like concat('%', #{keyword}, '%')
+                </if>
+                <if test='type == "w"'>
+                    writer like concat('%', #{keyword}, '%')
+                </if>
+            </foreach>
+        </trim>
+    </if>
+    order by bno desc limit #{skip}, #{size}
+</select>
+
+<!-- getListCount -->
+<select id="getCountEnd" resultType="long">
+    select count(*) from (select * from tbl_board where bno > 0 limit #{countEnd}) board
+</select>
+
+<insert id="regist">
+    insert into tbl_board (title,content,writer)
+    values (#{title}, #{content}, #{writer})
+</insert>
+
+<select id="getOne" resultType="org.zerock.board.dto.BoardDTO">
+    select * from tbl_board where bno = #{bno}
+</select>
+
+<update id="modify">
+    update tbl_board set title=#{title}, content=#{content}, updateDate=now() where bno=#{bno}
+</update>
+
+<update id="delete">
+    update tbl_board set exist = false where bno=#{bno}
+</update>
+
+</mapper>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout/layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+[[${board}]]
+
+<h1>Modify</h1>
+
+<div layout:fragment="content">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Regist Form</h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                <div class="row">
+                                    <!-- left column -->
+                                    <div class="col-md-12">
+                                        <!-- general form elements -->
+                                        <div class="card card-primary">
+                                            <div class="card-header">
+                                                <h3 class="card-title">Quick Example</h3>
+                                            </div>
+                                            <!-- /.card-header -->
+                                            <!-- form start -->
+                                            <form class="actionForm">
+
+                                                <input type="hidden" class="form-control" name="bno"
+                                                       th:value="${board.bno}">
+
+                                                <div class="card-body">
+                                                    <div class="form-group">
+                                                        <label>Title</label>
+                                                        <input type="text" class="form-control" name="title"
+                                                               th:value="${board.title}">
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label>Content</label>
+                                                        <input type="text" class="form-control" name="content"
+                                                               th:value="${board.content}">
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label>Writer</label>
+                                                        <input type="text" class="form-control" name="writer"
+                                                               th:value="${board.writer}">
+                                                    </div>
+                                                </div>
+                                                <!-- /.card-body -->
+
+                                                <div class="card-footer">
+                                                    <button type="submit" class="btn btn-primary listBtn">LIST</button>
+                                                    <button type="submit" class="btn btn-info modifyBtn">MODIFY</button>
+                                                    <button type="submit" class="btn btn-danger deleteBtn">DELTE</button>
+                                            </form>
+
+                                        </div>
+                                        </form>
+                                    </div>
+                                    <!-- /.card -->
+                                </div>
+                                <!--/.col (left) -->
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer clearfix">
+                        </div>
+                    </div>
+                    <!-- /.card -->
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+</div>
+
+
+<script layout:fragment="script" th:inline="javascript">
+
+      const actionForm = document.querySelector(".actionForm");
+      const modifyBtn = document.querySelector(".modifyBtn");
+      const deleteBtn = document.querySelector(".deleteBtn");
+      const listBtn = document.querySelector(".listBtn");
+
+      const bno = [[${board.bno}]]
+
+      listBtn.addEventListener("click", e => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        window.location.href = "/board/list";
+      })
+
+      modifyBtn.addEventListener("click", e => {
+        e.stopPropagation();
+        e.preventDefault();
+
+        actionForm.setAttribute("action", `/board/modify/${bno}`);
+        actionForm.setAttribute("method", `post`);
+        actionForm.submit();
+      }, false)
+
+    </script>
+
+
+</body>
+</html>
