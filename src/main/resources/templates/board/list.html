@@ -25,24 +25,31 @@
               <div class="card">
                 <div class="card-header">
                   <h3 class="card-title">Bordered Table</h3>
+                  [[$requestDTO]]
                 </div>
                 <td>
                     <div class="col-sm-1">
                       <!-- select -->
                       <div class="form-group">
                         <label>SEARCH</label>
-                        <select class="form-control">
-                          <option>option 1</option>
-                          <option>option 2</option>
-                          <option>option 3</option>
-                          <option>option 4</option>
-                          <option>option 5</option>
-                        </select>
-                        <span class="input-group input-group-sm">
-                          <input type="text" class="form-control">
-                          <span class="input-group-append">
-                            <button type="button" class="btn btn-info btn-flat">Go!</button>
-                          </span>
+                        <div class="mb-3 searchWrap">
+                          <form action="/board/list" method="get" class="actionForm">
+                            <input type="hidden" name="page" th:value="${requestDTO.page}">
+                            <input type="hidden" name="size" th:value="${requestDTO.size}">
+                            <select name="type" class="form-control">
+                              <option value="">선택해주세요</option>
+                              <option value="t" th:selected="${requestDTO.type == 't'}">제목</option>
+                              <option value="c" th:selected="${requestDTO.type == 'c'}">내용</option>
+                              <option value="w" th:selected="${requestDTO.type == 'w'}">작성자 </option>
+                              <option value="tc" th:selected="${requestDTO.type == 'tc'}">제목+내용 </option>
+                            </select>
+                            <input type="text" name="keyword" class="form-control mb-3" placeholder="검색어를 입력 해주세요." 
+                            th:value="${requestDTO.keyword}">
+                            <div class="button_wrap">
+                              <button type="submit" class="btn btn-primary btnSearch">검색</button>
+                            </div>
+                          </form>
+                        </div>
                       </div>
                     </div>
                     <div class="col-sm-1">
@@ -62,10 +69,10 @@
                       <th style="width: 150px">Writer</th>
                     </tr>
                     </thead>
-                    <form class="actionForm" action="/board/read" method="get">
+                    
                       <tbody class="readBtn">
-                      <input type="hidden" name="page" th:value="${request.page}">
-                      <input type="hidden" name="size" th:value="${request.size}">
+                      <input type="hidden" name="page" th:value="${requestDTO.page}">
+                      <input type="hidden" name="size" th:value="${requestDTO.size}">
                       <tr th:each="board : ${list.list}" th:data-bno=${board.bno}>
                         <td th:text="${board.bno}">1.</td>
                         <td th:text="${board.title}">title</td>
@@ -101,7 +108,7 @@
   const boardUL = document.querySelector(".paging");
   const actionForm= document.querySelector(".actionForm")
 
-  const {page,size} = [[${request}]];
+  const {page,size} = [[${requestDTO}]];
   const {total} = [[${list}]];
 
   const PageLIStr = makePages(page, size, total);

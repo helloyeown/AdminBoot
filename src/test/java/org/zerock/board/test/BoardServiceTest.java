@@ -67,9 +67,12 @@ public class BoardServiceTest {
     @Test
     public void listTest(){
 
-        List<BoardDTO> list = boardService.getList();
+        PageRequestDTO dto = PageRequestDTO.builder()
+        .keyword("십")
+        .type("t")
+        .build();
 
-        log.info(list);
+        log.info(boardService.getList(dto));
 
     }
 

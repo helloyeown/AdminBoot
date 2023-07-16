@@ -44,13 +44,16 @@ public class BoardController {
     
     // 목록
     @GetMapping("list")
-    public void getList(Model model, PageRequestDTO dto){
+    public void getList(Model model, PageRequestDTO requestDTO){
         log.info("list...............");
 
-        PageResponseDTO<BoardDTO> list = boardService.getList(dto);
+        PageResponseDTO<BoardDTO> list = boardService.getList(requestDTO);
+        log.info("-------------------------");
+        log.info(list);
+        log.info(requestDTO);
 
         model.addAttribute("list", list);
-        model.addAttribute("request", dto);
+        model.addAttribute("requestDTO", requestDTO);
     }
 
     // 등록

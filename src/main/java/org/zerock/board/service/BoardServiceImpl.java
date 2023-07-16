@@ -20,12 +20,14 @@ public class BoardServiceImpl implements BoardService {
     // 목록
     @Override
     public PageResponseDTO<BoardDTO> getList(PageRequestDTO pageRequestDTO) {
+
         List<BoardDTO> list = boardMapper.getList(pageRequestDTO);
         long total = boardMapper.getCountEnd(pageRequestDTO);
 
 		return PageResponseDTO.<BoardDTO>withAll()
 						.list(list)
 						.total(total)
+                        .pageRequestDTO(pageRequestDTO)
 						.build();
     }
 

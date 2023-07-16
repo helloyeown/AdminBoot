@@ -11,8 +11,9 @@ public class PageResponseDTO<E> {
     private List<E> list;
 	private long total;					// PageRequestDTO에서 getCountEnd를 담을 변수
 
+
     @Builder(builderMethodName = "withAll")
-    public PageResponseDTO(List<E> list, long total){
+    public PageResponseDTO(List<E> list, long total, PageRequestDTO pageRequestDTO){
         this.list = list;
         this.total = total;
 	}

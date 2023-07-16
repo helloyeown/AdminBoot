@@ -28,6 +28,9 @@ public class PageRequestDTO {
     private String type;
     private String keyword;
 
+    // 댓글 페이징 마지막 페이지 유무
+    private boolean replyLast;
+
     public void setPage(int page){
         if(page<=0){
             this.page = 1;

@@ -9,9 +9,9 @@
 <select id="getList" resultType="org.zerock.board.dto.BoardDTO">
     select * from tbl_board where exist=true 
     <if test="keyword !=null and types != null">
-        <trim perfix="and (" perfixOverrides="or" suffix=")">
+        <trim prefix="and (" prefixOverrides="or" suffix=")">
         <!-- 앞에 and ( 붙이고 )로 닫아줌, or가 필요 없을 때 or를 지워줌 -->
-            <foreach collection="types" item="type" seperator=" OR ">
+            <foreach collection="types" item="type" separator=" OR ">
                 <if test='type == "t"'>
                     title like concat('%', #{keyword}, '%')
                 </if>

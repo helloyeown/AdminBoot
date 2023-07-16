@@ -73,7 +73,10 @@ public class BoardDAOTest {
     @Test
     public void getListTest(){
 
-        PageRequestDTO dto = PageRequestDTO.builder().build();
+        PageRequestDTO dto = PageRequestDTO.builder()
+        .keyword("십")
+        .type("t")
+        .build();
         
         List<BoardDTO> list = boardMapper.getList(dto);
 
