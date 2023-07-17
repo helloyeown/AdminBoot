@@ -25,7 +25,6 @@
               <div class="card">
                 <div class="card-header">
                   <h3 class="card-title">Bordered Table</h3>
-                  [[$requestDTO]]
                 </div>
                 <td>
                     <div class="col-sm-1">
@@ -67,6 +66,7 @@
                       <th>Title</th>
                       <th>Content</th>
                       <th style="width: 150px">Writer</th>
+                      <th style="width: 250px;">Date</th>
                     </tr>
                     </thead>
                     
@@ -78,6 +78,7 @@
                         <td th:text="${board.title}">title</td>
                         <td th:text="${board.content}">content</td>
                         <td th:text="${board.writer}">writer</td>
+                        <td th:utext="${board.updateDate}">date</td>
                       </tr>
                       </tbody>
                     </form>

@@ -5,10 +5,10 @@
 
 <mapper namespace="org.zerock.board.mappers.ReplyMapper">
 
-<select id="getList" resultType="ReplyDTO">
-    select if(rno=gno, 0, 1) as step, rno, bno, reply, replyer, replyData, gno
+<select id="getList" resultType="org.zerock.board.dto.reply.ReplyDTO">
+    select if(rno=gno, 0, 1) as step, rno, bno, reply, replyer, replyDate, gno
     from tbl_reply
-    where bno=#{bno} and rno>0
+    where bno=#{bno} and rno > 0
     order by gno asc, rno asc
     limit #{pr.skip}, #{pr.size}
 </select>

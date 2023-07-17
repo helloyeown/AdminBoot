@@ -19,5 +19,6 @@ public class BoardDTO {
     private String writer;
     private String dueDate;
     private String updateDate;
+    private boolean exist;
 
 }

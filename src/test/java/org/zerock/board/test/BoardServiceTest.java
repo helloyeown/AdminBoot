@@ -68,7 +68,7 @@ public class BoardServiceTest {
     public void listTest(){
 
         PageRequestDTO dto = PageRequestDTO.builder()
-        .keyword("십")
+        .keyword("new")
         .type("t")
         .build();
 
