@@ -6,14 +6,14 @@ import java.net.URLEncoder;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Getter
+@Data
 @Builder
 public class PageRequestDTO {
     
@@ -58,6 +58,16 @@ public class PageRequestDTO {
         return temp + 1;
     }
 
+    
+
+    // type 배열로 반환 처리
+    public String[] getTypes(){
+        if(this.type == null || this.type.isEmpty()){
+            return null;
+        }
+        return this.type.split("");
+    }
+
     // link
     public String getLink() {
 
@@ -85,14 +95,6 @@ public class PageRequestDTO {
             link = stringBuilder.toString();
         }
         return  link;
-    }
-
-    // type 배열로 반환 처리
-    public String[] getTypes(){
-        if(this.type == null || this.type.isEmpty()){
-            return null;
-        }
-        return this.type.split("");
     }
 
 }

@@ -9,9 +9,11 @@ import org.zerock.board.dto.PageResponseDTO;
 import org.zerock.board.mappers.BoardMapper;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 
 @Service
 @RequiredArgsConstructor
+@Log4j2
 public class BoardServiceImpl implements BoardService {
     
     private final BoardMapper boardMapper;
@@ -23,6 +25,8 @@ public class BoardServiceImpl implements BoardService {
 
         List<BoardDTO> list = boardMapper.getList(pageRequestDTO);
         long total = boardMapper.getCountEnd(pageRequestDTO);
+        log.info("----------------" + pageRequestDTO.getType());
+        log.info("----------------" + pageRequestDTO.getTypes());
 
 		return PageResponseDTO.<BoardDTO>withAll()
 						.list(list)

@@ -74,7 +74,7 @@ public class BoardDAOTest {
     public void getListTest(){
 
         PageRequestDTO dto = PageRequestDTO.builder()
-        .keyword("십")
+        .keyword("오")
         .type("t")
         .build();
         

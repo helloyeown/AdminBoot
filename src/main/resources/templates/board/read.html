@@ -69,12 +69,43 @@
                               </div>
                             </form>
                           </div>
+                          
+
+                            <div class="col-sm-12 col-md-12 col-xl-12">
+                              <div class="h-100 bg-light rounded p-4">
+                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                  <h6 class="mb-0">Reply Register</h6>
+                                </div>
+                                <div class="mb-3 replyRegister">
+                                  <input type="hidden" name="bno" th:value="${board.bno}">
+                                  <input type="hidden" name="replyer" value="Josanghee">
+                                  <input type="text" name="reply" class="form-control">
+                                </div>
+                                <div class="button_wrap">
+                                  <button class="btn btn-primary btnRegister">Reply Register</button>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="col-sm-12 col-md-12 col-xl-12">
+                              <div class="h-100 bg-light rounded p-4">
+                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                  <h6 class="mb-0">Reply</h6>
+                                </div>
+                                <div class="replyWrap"></div>
+                                <div class="btn-toolbar" role="toolbar" style="justify-content: center;">
+                                  <!--/* paging */-->
+                                  <ul class="btn-group me-2 paging replyPaging" role="group" aria-label="First group"></ul>
+                                </div>
+                              </div>
+                            </div>
                           <!-- /.card -->
                         </div>
                         <!--/.col (left) -->
                       </div>
                     </div>
                     <!-- /.card-body -->
+                    
                     <div class="card-footer clearfix">
                     </div>
                   </div>
@@ -88,49 +119,19 @@
     <!-- Control sidebar content goes here -->
   </aside>
   <!-- /.control-sidebar -->
+  
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="/js/replyAxios.js"></script>
 </div>
 <!-- ./wrapper -->
-
-<!-- jQuery -->
-<script src="/plugins/jquery/jquery.min.js"></script>
-<!-- jQuery UI 1.11.4 -->
-<script src="/plugins/jquery-ui/jquery-ui.min.js"></script>
-<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-<script>
-  $.widget.bridge('uibutton', $.ui.button)
-</script>
-<!-- Bootstrap 4 -->
-<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- ChartJS -->
-<script src="/plugins/chart.js/Chart.min.js"></script>
-<!-- Sparkline -->
-<script src="/plugins/sparklines/sparkline.js"></script>
-<!-- JQVMap -->
-<script src="/plugins/jqvmap/jquery.vmap.min.js"></script>
-<script src="/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
-<!-- jQuery Knob Chart -->
-<script src="/plugins/jquery-knob/jquery.knob.min.js"></script>
-<!-- daterangepicker -->
-<script src="/plugins/moment/moment.min.js"></script>
-<script src="/plugins/daterangepicker/daterangepicker.js"></script>
-<!-- Tempusdominus Bootstrap 4 -->
-<script src="/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
-<!-- Summernote -->
-<script src="/plugins/summernote/summernote-bs4.min.js"></script>
-<!-- overlayScrollbars -->
-<script src="/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-<!-- AdminLTE App -->
-<script src="/dist/js/adminlte.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="/dist/js/demo.js"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="/dist/js/pages/dashboard.js"></script>
 
 
 <script layout:fragment="script" th:inline="javascript">
 
+  const realPath = "http://" + window.location.host;
   const actionForm = document.querySelector(".actionForm");
   const deleteBtn = document.querySelector(".deleteBtn");
+  const replyWrap = document.querySelector(".replyWrap")
 
   const bno = [[${board.bno}]]
 
@@ -144,6 +145,10 @@
     actionForm.submit();
 
   },false)
+
+
+  // 최초 댓글 목록
+  getListDefault()
 
 </script>
 

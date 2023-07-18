@@ -2,6 +2,7 @@ package org.zerock.board.controller;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,11 @@ public class BoardController {
 
     // 수정 폼
     @GetMapping("modify/{bno}")
-    public String modifyForm(@PathVariable int bno, Model model){
+    public String modifyForm(@PathVariable Integer bno, Model model, PageRequestDTO pageRequestDTO){
+        
+        log.info("GET MODIFY...............");
+        log.info(pageRequestDTO);
+
         BoardDTO boardDTO = boardService.read(bno);
         model.addAttribute("board", boardDTO);
    
@@ -44,16 +49,25 @@ public class BoardController {
     
     // 목록
     @GetMapping("list")
-    public void getList(Model model, PageRequestDTO requestDTO){
+    public void getList(Model model, PageRequestDTO pageRequestDTO , @Param("keyword") String keyword , @Param("type") String type ){
         log.info("list...............");
 
-        PageResponseDTO<BoardDTO> list = boardService.getList(requestDTO);
+        log.info(keyword);
+        log.info(type);
+
+        pageRequestDTO.setKeyword(keyword);
+        pageRequestDTO.setType(type);
+
+        log.info("====================================================================");
+        log.info(pageRequestDTO);
+        log.info("====================================================================");
+
+        PageResponseDTO<BoardDTO> list = boardService.getList(pageRequestDTO);
         log.info("-------------------------");
         log.info(list);
-        log.info(requestDTO);
+        log.info(pageRequestDTO);
 
         model.addAttribute("list", list);
-        model.addAttribute("requestDTO", requestDTO);
     }
 
     // 등록

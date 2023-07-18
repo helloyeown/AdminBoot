@@ -27,23 +27,23 @@
                   <h3 class="card-title">Bordered Table</h3>
                 </div>
                 <td>
-                    <div class="col-sm-1">
+                    <div class="col-md-1">
                       <!-- select -->
                       <div class="form-group">
                         <label>SEARCH</label>
                         <div class="mb-3 searchWrap">
                           <form action="/board/list" method="get" class="actionForm">
-                            <input type="hidden" name="page" th:value="${requestDTO.page}">
-                            <input type="hidden" name="size" th:value="${requestDTO.size}">
+                            <input type="hidden" name="page" th:value="${pageRequestDTO.page}">
+                            <input type="hidden" name="size" th:value="${pageRequestDTO.size}">
                             <select name="type" class="form-control">
                               <option value="">선택해주세요</option>
-                              <option value="t" th:selected="${requestDTO.type == 't'}">제목</option>
-                              <option value="c" th:selected="${requestDTO.type == 'c'}">내용</option>
-                              <option value="w" th:selected="${requestDTO.type == 'w'}">작성자 </option>
-                              <option value="tc" th:selected="${requestDTO.type == 'tc'}">제목+내용 </option>
+                              <option value="t" th:selected="${pageRequestDTO.type == 't'}">제목</option>
+                              <option value="c" th:selected="${pageRequestDTO.type == 'c'}">내용</option>
+                              <option value="w" th:selected="${pageRequestDTO.type == 'w'}">작성자 </option>
+                              <option value="tc" th:selected="${pageRequestDTO.type == 'tc'}">제목+내용 </option>
                             </select>
                             <input type="text" name="keyword" class="form-control mb-3" placeholder="검색어를 입력 해주세요." 
-                            th:value="${requestDTO.keyword}">
+                            th:value="${pageRequestDTO.keyword}">
                             <div class="button_wrap">
                               <button type="submit" class="btn btn-primary btnSearch">검색</button>
                             </div>
@@ -71,8 +71,8 @@
                     </thead>
                     
                       <tbody class="readBtn">
-                      <input type="hidden" name="page" th:value="${requestDTO.page}">
-                      <input type="hidden" name="size" th:value="${requestDTO.size}">
+                      <input type="hidden" name="page" th:value="${pageRequestDTO.page}">
+                      <input type="hidden" name="size" th:value="${pageRequestDTO.size}">
                       <tr th:each="board : ${list.list}" th:data-bno=${board.bno}>
                         <td th:text="${board.bno}">1.</td>
                         <td th:text="${board.title}">title</td>
@@ -81,7 +81,6 @@
                         <td th:utext="${board.updateDate}">date</td>
                       </tr>
                       </tbody>
-                    </form>
                   </table>
                 </div>
                 <!-- /.card-body -->
@@ -107,9 +106,13 @@
   const readBtn = document.querySelector(".readBtn");
   const pageArea = document.querySelector(".card-footer");
   const boardUL = document.querySelector(".paging");
-  const actionForm= document.querySelector(".actionForm")
+  const actionForm= document.querySelector(".actionForm");
+  const searchBrn = document.querySelector(".btnSearch")
+  const typeObj = document.querySelector("select[name=type]")
+  const keywordObj = document.querySelector("input[name=keyword]")
+  const pageInput = document.querySelector("input[name=page]")
 
-  const {page,size} = [[${requestDTO}]];
+  const {page,size, type, keyword} = [[${pageRequestDTO}]];
   const {total} = [[${list}]];
 
   const PageLIStr = makePages(page, size, total);
@@ -132,6 +135,21 @@
     const bno = target.closest("tr").getAttribute("data-bno")
 
     actionForm.setAttribute("action",`/board/read/${bno}`)
+    actionForm.submit()
+
+  }, false)
+
+  // 검색
+  searchBrn.addEventListener("click", e => {
+    e.stopPropagation()
+    e.preventDefault()
+
+    if(typeObj.options[typeObj.selectedIndex].value === '' && keywordObj.value !== '') {
+      alert("검색 조건을 선택해주세요.")
+      return
+    }
+
+    pageInput.value = 1
     actionForm.submit()
 
   }, false)

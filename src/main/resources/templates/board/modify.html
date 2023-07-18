@@ -64,7 +64,8 @@
                                                 <!-- /.card-body -->
 
                                                 <div class="card-footer">
-                                                    <button type="submit" class="btn btn-primary listBtn">LIST</button>
+                                                    [[${pageRequestDTO}]]
+                                                    <a th:href="@{|/board/read/${bno}?${pageRequestDTO.link}|}" class="btn btn-primary listBtn">CANCEL</a>
                                                     <button type="submit" class="btn btn-info modifyBtn">MODIFY</button>
                                                     <button type="submit" class="btn btn-danger deleteBtn">DELTE</button>
                                             </form>
@@ -98,12 +99,12 @@
 
       const bno = [[${board.bno}]]
 
-      listBtn.addEventListener("click", e => {
-        e.preventDefault();
-        e.stopPropagation();
+    //   listBtn.addEventListener("click", e => {
+    //     e.preventDefault();
+    //     e.stopPropagation();
 
-        window.location.href = "/board/list";
-      })
+    //     window.location.href = "/board/list";
+    //   })
 
       modifyBtn.addEventListener("click", e => {
         e.stopPropagation();
