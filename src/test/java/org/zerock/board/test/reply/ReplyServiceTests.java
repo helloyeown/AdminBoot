@@ -22,7 +22,7 @@ public class ReplyServiceTests {
         PageRequestDTO dto = PageRequestDTO.builder().build();
 
         log.info(replyService.getList(bno, dto));
-    }
+    } 
 
 
 }
