@@ -1,11 +1,11 @@
 
 // 댓글 비동기 통신 처리
+
 // list
 const getList = async (replyLast = false, page = 1) => {
 	const res = await axios.get(`${realPath}/api/replies/${bno}/list?page=${page}&replyLast=${replyLast}`)
 	return res.data
 }
-
 
 // list 함수로 선언
 const getListDefault = (replyLast, page) => {
@@ -39,4 +39,13 @@ const getListDefault = (replyLast, page) => {
 		replyWrap.innerHTML = replyStr
 
 	})
+
+// regist
+// 파라미터로 data를 받아서 post 요청을 보낼 때 JSON 형식으로 HTTP Post 요청의 페이로드로 전달
+// 서버로부터의 응답은 res 객체로 받아짐
+const postRegist = async (data) => {
+	const res = await axios.post(`${realPath}/api/replies/${bno}/regist`, data)
+	return res.data
+}
+
 }

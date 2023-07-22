@@ -49,14 +49,14 @@ public class BoardController {
     
     // 목록
     @GetMapping("list")
-    public void getList(Model model, PageRequestDTO pageRequestDTO , @Param("keyword") String keyword , @Param("type") String type ){
+    public void getList(Model model, PageRequestDTO pageRequestDTO){
         log.info("list...............");
 
-        log.info(keyword);
-        log.info(type);
+        // log.info(keyword);
+        // log.info(type);
 
-        pageRequestDTO.setKeyword(keyword);
-        pageRequestDTO.setType(type);
+        // pageRequestDTO.setKeyword(keyword);
+        // pageRequestDTO.setType(type);
 
         log.info("====================================================================");
         log.info(pageRequestDTO);

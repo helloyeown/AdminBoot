@@ -86,6 +86,16 @@
                 <!-- /.card-body -->
                 <div class="card-footer clearfix">
                   <ul class="pagination pagination-sm m-0 float-right paging">
+                    <li th:if="${list.prevBtn}"><a th:href="${list.startNum - 1}">이전</a></li>
+
+                    <!-- startNum부터 endNum까지 넘버 시퀀스 생성해서 변수 i에 할당 -->
+                    <th:block th:each="i : ${#numbers.sequence(list.startNum, list.endNum)}">
+                      <li th:class="${pageRequestDTO.page == i} ? 'active' : ''">
+                        <a th:href="${i}" class="btn btn-primary">[[${i}]]</a>
+                      </li>
+                    </th:block>
+
+                    <li th:if="${list.nextBtn}"><a th:href="${list.endNum + 1}" class="btn-primary">다음</a></li>
 
                   </ul>
                 </div>
@@ -115,13 +125,7 @@
   const {page,size, type, keyword} = [[${pageRequestDTO}]];
   const {total} = [[${list}]];
 
-  const PageLIStr = makePages(page, size, total);
-
   console.log("----------------" + page, size, total);
-  // console.log(PageLIStr);
-
-  boardUL.innerHTML = PageLIStr;
-
 
   // 조회
   readBtn.addEventListener("click", e => {
@@ -153,6 +157,32 @@
     actionForm.submit()
 
   }, false)
+
+  boardUL.addEventListener("click", (e) => {
+      //이벤트 막기
+      e.preventDefault()
+      e.stopPropagation()
+
+      //target 찾기
+      const target = e.target
+      //console.log(target.tagName)
+
+      //A태그가 아니면 return
+      if(target.tagName !== "A"){
+        return
+      }
+
+      //page번호 설정
+      const pageNum = target.getAttribute("href")
+      //console.log(pageNum)
+
+      //input에 page변경 넘겨주기
+      pageInput.value = pageNum
+      //actionForm action 변경
+      actionForm.setAttribute("action", "/board/list")
+      //submit
+      actionForm.submit()
+    })
 
 </script>
 
