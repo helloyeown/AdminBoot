@@ -85,5 +85,15 @@ public class ReplyServiceImpl implements ReplyService {
         }
         return result;
     }
+
+    @Override
+    public ReplyDTO read(Integer rno) { 
+        return replyMapper.read(rno);
+    }
+
+    @Override
+    public void delete(Integer rno) {
+        replyMapper.delete(rno);
+    }
     
 }

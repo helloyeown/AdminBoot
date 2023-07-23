@@ -41,5 +41,18 @@
     </selectKey>
 </insert>
 
+<!-- read -->
+<select id="read" resultType="org.zerock.board.dto.reply.ReplyDTO">
+    select rno, bno, reply, replyer, exist 
+    from tbl_reply 
+    where rno = #{rno}
+</select>
+
+<!-- delete -->
+<update id="delete">
+    update tbl_reply 
+    set exist = false, reply = '삭제된 댓글입니다.', replyDate = now()
+    where rno = #{rno};
+</update>
 
 </mapper>

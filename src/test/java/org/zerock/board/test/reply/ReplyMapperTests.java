@@ -37,4 +37,14 @@ public class ReplyMapperTests {
         log.info(replyMapper.getList(1395, page));
     }
 
+    @Test
+    public void readTest(){
+        log.info(replyMapper.read(24));
+    }
+
+    @Test
+    public void deleteTest(){
+        replyMapper.delete(26);
+    }
+
 }

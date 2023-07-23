@@ -25,5 +25,11 @@ public interface ReplyMapper {
     // gno != 0
     int registReplyChild(ReplyDTO replyDTO);
 
+    // 조회
+    ReplyDTO read(Integer rno);
+
+    // 삭제
+    int delete(Integer rno);
+
 
 }

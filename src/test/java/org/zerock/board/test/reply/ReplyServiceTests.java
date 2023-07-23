@@ -42,5 +42,17 @@ public class ReplyServiceTests {
         log.info(replyService.regist(dto));
     }
 
+    // read
+    @Test
+    public void readTest(){
+        log.info(replyService.read(24));
+    }
+
+    // delete
+    @Test
+    public void deleteTest(){
+        replyService.delete(24);
+    }
+
 
 }

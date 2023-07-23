@@ -3,6 +3,7 @@ package org.zerock.board.controller;
 import java.util.Map;
 
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,6 +43,24 @@ public class ReplyController {
 		replyDTO.setBno(bno);	// 안전장치
 
 		Integer rno = replyService.regist(replyDTO);
+
+		return Map.of("result", rno);
+	}
+
+	// read
+	@GetMapping("read/{rno}")
+	public ReplyDTO read(@PathVariable("rno") Integer rno){
+		log.info("Get Read Reply...................");
+
+		return replyService.read(rno);
+	}
+
+	// delete
+	@DeleteMapping("delete/{rno}")
+	public Map<String, Integer> delete(@PathVariable("rno") Integer rno){
+		log.info("Reply Delete................");
+
+		replyService.delete(rno);
 
 		return Map.of("result", rno);
 	}

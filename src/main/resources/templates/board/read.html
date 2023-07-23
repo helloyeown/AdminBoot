@@ -70,7 +70,7 @@
                             </form>
                           </div>
                           
-
+                            <!-- 댓글 영역 -->
                             <div class="col-sm-12 col-md-12 col-xl-12">
                               <div class="h-100 bg-light rounded p-4">
                                 <div class="d-flex align-items-center justify-content-between mb-3">
@@ -78,7 +78,7 @@
                                 </div>
                                 <div class="mb-3 replyRegister">
                                   <input type="hidden" name="bno" th:value="${board.bno}">
-                                  <input type="hidden" name="replyer" value="Josanghee">
+                                  <input type="hidden" name="replyer" value="yewon">
                                   <input type="text" name="reply" class="form-control">
                                 </div>
                                 <div class="button_wrap">
@@ -87,6 +87,7 @@
                               </div>
                             </div>
 
+                            <!-- 댓글 리스트 -->
                             <div class="col-sm-12 col-md-12 col-xl-12">
                               <div class="h-100 bg-light rounded p-4">
                                 <div class="d-flex align-items-center justify-content-between mb-3">
@@ -99,12 +100,62 @@
                                 </div>
                               </div>
                             </div>
-                          <!-- /.card -->
+
+                            <div class="modal alertModal" tabindex="-1" role="dialog">
+                              <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                  <div class="modal-body">[[${message}]]</div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="modal replyModal" tabindex="-1" role="dialog">
+                              <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    Reply Register
+                                  </div>
+                                  <div class="modal-body replyRegister2">
+                                    <input type="hidden" name="bno" th:value="${board.bno}">
+                                    <input type="hidden" name="replyer" value="yewon">
+                                    <input type="text" name="reply" class="form-control">
+                                    <div class="replyGno"></div>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button class="btn btn-primary btnRegister2">Reply Register</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <!-- 댓글 수정/삭제 모달 -->
+                            <div class="modal replyModModal" tabindex="-1" role="dialog">
+                              <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    Reply Modify
+                                  </div>
+                                  <div class="modal-body replyModify">
+                                    <input type="hidden" name="replyer" value="yewon">
+                                    <input type="text" name="reply" class="form-control">
+                                    <div class="replyModifyVal"></div>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button class="btn btn-primary btnReplyModify">Reply Modify</button>
+                                    <button class="btn btn-danger btnDelete">Reply Delete</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
                         </div>
-                        <!--/.col (left) -->
                       </div>
                     </div>
-                    <!-- /.card-body -->
                     
                     <div class="card-footer clearfix">
                     </div>
@@ -128,28 +179,156 @@
 
 <script layout:fragment="script" th:inline="javascript">
 
-  const realPath = "http://" + window.location.host;
-  const actionForm = document.querySelector(".actionForm");
-  const deleteBtn = document.querySelector(".deleteBtn");
+  const realPath = "http://" + window.location.host
+  const actionForm = document.querySelector(".actionForm")
+  const deleteBtn = document.querySelector(".deleteBtn")
   const replyWrap = document.querySelector(".replyWrap")
+  const replyPaging = document.querySelector(".replyPaging")
+  const replyRegister = document.querySelector(".replyRegister")
+  const replyRegister2 = document.querySelector(".replyRegister2")
+  const btnRegister = document.querySelector(".btnRegister")
+  const alertModal = new bootstrap.Modal(document.querySelector(".alertModal"))
+  const replyModModal = new bootstrap.Modal(document.querySelector(".replyModModal"))
+  const btnDelete = document.querySelector(".btnDelete")
+  const replyModify = document.querySelector(".replyModify")
+  const replyModifyVal = replyModify.querySelector(".replyModifyVal ")
+  const btnRegister2 = document.querySelector(".btnRegister2")
+  const replyModal = new bootstrap.Modal(document.querySelector(".replyModal"))
+  const replyGno = replyRegister2.querySelector(".replyGno")
 
   const bno = [[${board.bno}]]
 
+  // 게시글 삭제
   deleteBtn.addEventListener("click", e => {
     // 이벤트 기본 동작(폼 제출)을 막기 위해
-    e.preventDefault();
-    e.stopPropagation();
+    e.preventDefault()
+    e.stopPropagation()
 
     actionForm.setAttribute("action", `/board/delete/${bno}`)
-    actionForm.setAttribute("method", `post`);
-    actionForm.submit();
+    actionForm.setAttribute("method", `post`)
+    actionForm.submit()
 
   },false)
+  // /게시글 삭제
 
+
+  // 댓글
+  // 댓글 등록
+  btnRegister.addEventListener("click", (e) => {
+    e.stopPropagation()
+    e.preventDefault()
+
+    // value 가져오기
+    const bno = replyRegister.querySelector("input[name=bno]").value
+    const reply = replyRegister.querySelector("input[name=reply]").value
+    const replyer = replyRegister.querySelector("input[name=replyer]").value
+    console.log(bno, reply, replyer)
+
+    if(reply === '' || reply.trim().length <= 0) {
+      alert("댓글 내용을 입력해주세요.")
+      return
+    }
+
+    // 객체로 만들기
+    const temp = {bno, reply, replyer}
+
+    postRegist(temp).then(data => {
+      alert(data.result + "번 댓글이 등록되었습니다.")
+      replyRegister.querySelector("input[name=reply]"),value = ""
+      getListDefault()  // 입력창 비워주고 다시 리스트 가져옴
+    })
+  }, false)
+  // /댓글 등록
+
+  // 댓글 수정/삭제 모달
+  replyWrap.addEventListener("click", (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+
+    const rno = e.target.getAttribute("data-rno")
+    console.log("rno: " + rno)
+
+    getRead(rno).then(data => {
+      console.log(data)
+
+      if(!data.exist) {
+        alert("삭제된 댓글입니다.")
+        return
+      }
+
+      replyModModal.show()
+      replyModify.querySelector("input[name=reply]").value = data.reply
+      // rno값 심어줌
+      replyModifyVal.innerHTML = `<input type="hidden" name="rno" value="${rno}">`
+    })
+  }, false)
+  // /모달
+
+  // 댓글 삭제
+  btnDelete.addEventListener("click", (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+
+    const rno = e.target.closest(".replyModModal").querySelector("input[name=rno]").value
+    console.log("rno: " + rno)
+
+    deleteReply(rno).then(data => {
+      console.log(data)
+      alert(data.result + "번 게시물이 삭제되었습니다.")
+      replyModModal.hide()
+      getListDefault()
+    })
+  })
+  // /댓글 삭제
+
+  // 댓글 페이징
+  replyPaging.addEventListener("click", (e) => {
+    e.stopPropagation()
+    e.preventDefault()
+
+    const pageNum = e.target.getAttribute("data-page")
+
+    getListDefault(true, pageNum)
+  }, false)
+  // /댓글 페이징
+
+  // 대댓글 모달
+  replyWrap.addEventListener("click", (e) => {
+    e.stopPropagation()
+    e.preventDefault()
+
+    const result = e.target.getAttribute("data-reply")
+    const gno = e.target.getAttribute("data-gno")
+    console.log(result)
+
+    // reply 버튼을 누를 때만 동작하는 조건문
+    if(result === 'reply') {
+      replyModal.show()
+      replyRegister2.querySelector("input[name=reply]").value = ""
+      replyGno.innerHTML = `<input type="hidden" name="gno" value="%{gno}">`
+    }
+  }, false)
+  // /대댓글 모달
+
+  // 대댓글 등록
+  btnRegister2.addEventListener("click", (e) => {
+    e.stopPropagation()
+    e.preventDefault()
+
+    // value 가져오기
+    const bno = replyRegister2.querySelector("input[name=bno]").value
+    const reply = replyRegister2.querySelector("input[name=reply]").value
+    const replyer = replyRegister2.querySelector("input[name=replyer]").value
+    const gno = replyRegister2.querySelector("input[name=gno]").value
+
+    const temp = {bno, reply, replyer, gno}
+    console.log(temp)
+
+  })
 
   // 최초 댓글 목록
   getListDefault()
-
+  
 </script>
 
 </body>
