@@ -60,3 +60,5 @@ insert into tbl_reply (bno, reply, replyer) values (2039, 'test', 'tester');
 
 insert into tbl_board (title, content, writer)
 (select title, content, writer from tbl_board);
+
+ALTER TABLE tbl_reply ADD replyLast boolean;
