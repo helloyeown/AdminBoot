@@ -3,10 +3,10 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="org.zerock.board.mappers.BoardMapper">
+<mapper namespace="com.board.board.mappers.BoardMapper">
 
 
-<select id="getList" resultType="org.zerock.board.dto.BoardDTO">
+<select id="getList" resultType="com.board.board.dto.BoardDTO">
     select * from tbl_board where exist=true 
     <if test="keyword !=null and types != null">
         <trim prefix="and (" prefixOverrides="or" suffix=")">
@@ -29,7 +29,23 @@
 
 <!-- getListCount -->
 <select id="getCountEnd" resultType="long">
-    select count(*) from (select * from tbl_board where bno > 0 limit #{countEnd}) board
+    <!-- select count(*) from (select * from tbl_board where bno > 0 limit #{countEnd}) board -->
+    select count(*) from (select * from tbl_board where bno > 0
+    <if test="keyword != null and types != null">
+        <trim prefix="and (" prefixOverrides="or" suffix=")">
+         <foreach collection="types" item="type" separator="OR ">
+            <if test='type == "t"'>
+                title like concat('%', #{keyword}, '%')
+            </if>
+            <if test='type =="c"'>
+                content like concat('%', #{keyword}, '%')
+            </if>
+            <if test='type == "w"'>
+                writer like concat('%', #{keyword}, '%')
+            </if>
+        </foreach>
+        </trim>
+    </if>
 </select>
 
 <insert id="regist">
@@ -37,7 +53,7 @@
     values (#{title}, #{content}, #{writer})
 </insert>
 
-<select id="getOne" resultType="org.zerock.board.dto.BoardDTO">
+<select id="getOne" resultType="com.board.board.dto.BoardDTO">
     select * from tbl_board where bno = #{bno}
 </select>
 

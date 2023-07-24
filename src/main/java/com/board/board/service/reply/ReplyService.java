@@ -1,9 +1,9 @@
-package org.zerock.board.service.reply;
+package com.board.board.service.reply;
 
 import org.springframework.transaction.annotation.Transactional;
-import org.zerock.board.dto.PageRequestDTO;
-import org.zerock.board.dto.PageResponseDTO;
-import org.zerock.board.dto.reply.ReplyDTO;
+import com.board.board.dto.PageRequestDTO;
+import com.board.board.dto.PageResponseDTO;
+import com.board.board.dto.reply.ReplyDTO;
 
 @Transactional
 public interface ReplyService {

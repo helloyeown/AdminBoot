@@ -1,16 +1,12 @@
-package org.zerock.board.test;
+package com.board.board.test;
 
-import java.util.List;
-
+import com.board.board.dto.BoardDTO;
+import com.board.board.dto.PageResponseDTO;
+import com.board.board.service.BoardService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.zerock.board.dto.BoardDTO;
-import org.zerock.board.dto.PageRequestDTO;
-import org.zerock.board.dto.PageResponseDTO;
-import org.zerock.board.mappers.BoardMapper;
-import org.zerock.board.service.BoardService;
-import org.zerock.board.service.BoardServiceImpl;
+import com.board.board.dto.PageRequestDTO;
 
 import lombok.extern.log4j.Log4j2;
 

@@ -1,12 +1,12 @@
-package org.zerock.board.service.reply;
+package com.board.board.service.reply;
 
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-import org.zerock.board.dto.PageRequestDTO;
-import org.zerock.board.dto.PageResponseDTO;
-import org.zerock.board.dto.reply.ReplyDTO;
-import org.zerock.board.mappers.ReplyMapper;
+import com.board.board.dto.PageRequestDTO;
+import com.board.board.dto.PageResponseDTO;
+import com.board.board.dto.reply.ReplyDTO;
+import com.board.board.mappers.ReplyMapper;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

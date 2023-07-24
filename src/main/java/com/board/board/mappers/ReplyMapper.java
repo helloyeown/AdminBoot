@@ -1,10 +1,10 @@
-package org.zerock.board.mappers;
+package com.board.board.mappers;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
-import org.zerock.board.dto.PageRequestDTO;
-import org.zerock.board.dto.reply.ReplyDTO;
+import com.board.board.dto.PageRequestDTO;
+import com.board.board.dto.reply.ReplyDTO;
 
 public interface ReplyMapper {
     

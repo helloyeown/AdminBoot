@@ -1,15 +1,13 @@
-package org.zerock.board.controller;
+package com.board.board.controller;
 
-import java.util.List;
-
+import com.board.board.dto.BoardDTO;
+import com.board.board.dto.PageResponseDTO;
+import com.board.board.service.BoardService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.zerock.board.dto.BoardDTO;
-import org.zerock.board.dto.PageRequestDTO;
-import org.zerock.board.dto.PageResponseDTO;
-import org.zerock.board.service.BoardService;
+import com.board.board.dto.PageRequestDTO;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

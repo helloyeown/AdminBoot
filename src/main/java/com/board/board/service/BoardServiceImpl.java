@@ -1,12 +1,12 @@
-package org.zerock.board.service;
+package com.board.board.service;
 
 import java.util.List;
 
+import com.board.board.dto.BoardDTO;
 import org.springframework.stereotype.Service;
-import org.zerock.board.dto.BoardDTO;
-import org.zerock.board.dto.PageRequestDTO;
-import org.zerock.board.dto.PageResponseDTO;
-import org.zerock.board.mappers.BoardMapper;
+import com.board.board.dto.PageRequestDTO;
+import com.board.board.dto.PageResponseDTO;
+import com.board.board.mappers.BoardMapper;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

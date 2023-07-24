@@ -1,4 +1,4 @@
-package org.zerock.board.dto.reply;
+package com.board.board.dto.reply;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

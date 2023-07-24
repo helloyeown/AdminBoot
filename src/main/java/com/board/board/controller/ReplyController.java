@@ -1,14 +1,14 @@
-package org.zerock.board.controller;
+package com.board.board.controller;
 
+import com.board.board.dto.PageResponseDTO;
+import com.board.board.service.reply.ReplyService;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.zerock.board.dto.PageRequestDTO;
-import org.zerock.board.dto.PageResponseDTO;
-import org.zerock.board.dto.reply.ReplyDTO;
-import org.zerock.board.service.reply.ReplyService;
+import com.board.board.dto.PageRequestDTO;
+import com.board.board.dto.reply.ReplyDTO;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
