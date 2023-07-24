@@ -5,7 +5,8 @@
 
 <mapper namespace="com.board.board.mappers.ReplyMapper">
 
-<select id="getList" resultType="com.board.board.dto.reply.ReplyDTO">
+<!-- list -->
+<select id="getList" resultType="org.zerock.board.dto.reply.ReplyDTO">
     select if(rno=gno, 0, 1) as step, rno, bno, reply, replyer, replyDate, gno
     from tbl_reply
     where bno=#{bno} and rno > 0
@@ -16,5 +17,42 @@
 <select id="getRnoCnt" resultType="int">
     select count(rno) from tbl_reply where bno=#{bno}
 </select>
+
+<!-- regist 원댓글 -->
+<insert id="regist">
+    insert into tbl_reply (bno, reply, replyer) values (#{bno}, #{reply}, #{replyer})
+    <!-- 마지막 rno -->
+    <selectKey resultType="int" keyProperty="rno" order="AFTER">
+        select last_insert_id()
+    </selectKey>
+</insert>
+
+<!-- rno==gno 원댓글 -->
+<update id="updateReplyGno">
+    update tbl_reply set gno = #{rno} where rno = #{rno}
+</update>
+
+<!-- regist 대댓글 -->
+<insert id="registReplyChild">
+    insert into tbl_reply (bno, reply, replyer, gno) values (#{bno}, #{reply}, #{replyer}, #{gno})
+    <!-- 마지막 rno -->
+    <selectKey resultType="int" keyProperty="rno" order="AFTER">
+        select last_insert_id()
+    </selectKey>
+</insert>
+
+<!-- read -->
+<select id="read" resultType="org.zerock.board.dto.reply.ReplyDTO">
+    select rno, bno, reply, replyer, exist 
+    from tbl_reply 
+    where rno = #{rno}
+</select>
+
+<!-- delete -->
+<update id="delete">
+    update tbl_reply 
+    set exist = false, reply = '삭제된 댓글입니다.', replyDate = now()
+    where rno = #{rno};
+</update>
 
 </mapper>

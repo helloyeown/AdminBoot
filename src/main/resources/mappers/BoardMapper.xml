@@ -29,28 +29,31 @@
 
 <!-- getListCount -->
 <select id="getCountEnd" resultType="long">
-    <!-- select count(*) from (select * from tbl_board where bno > 0 limit #{countEnd}) board -->
-    select count(*) from (select * from tbl_board where bno > 0
+    select count(*) from (select * from tbl_board where bno > 0 
     <if test="keyword != null and types != null">
         <trim prefix="and (" prefixOverrides="or" suffix=")">
-         <foreach collection="types" item="type" separator="OR ">
+         <foreach collection="types" item="type" separator=" OR ">
             <if test='type == "t"'>
                 title like concat('%', #{keyword}, '%')
             </if>
-            <if test='type =="c"'>
+            <if test='type == "c"'>
                 content like concat('%', #{keyword}, '%')
             </if>
             <if test='type == "w"'>
                 writer like concat('%', #{keyword}, '%')
             </if>
-        </foreach>
+         </foreach>
         </trim>
     </if>
+    limit #{countEnd}) board
 </select>
 
 <insert id="regist">
     insert into tbl_board (title,content,writer)
     values (#{title}, #{content}, #{writer})
+    <selectKey resultType="int" keyProperty="bno" order="AFTER">
+        select last_insert_id()
+    </selectKey>
 </insert>
 
 <select id="getOne" resultType="com.board.board.dto.BoardDTO">
@@ -62,7 +65,10 @@
 </update>
 
 <update id="delete">
-    update tbl_board set exist = false where bno=#{bno}
+    update tbl_board set
+    title = '', content = '', writer = '', regDate = null, updateDate = now(),
+    exist = false 
+    where bno=#{bno}
 </update>
 
 </mapper>

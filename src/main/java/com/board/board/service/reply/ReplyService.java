@@ -11,4 +11,13 @@ public interface ReplyService {
     // list
     PageResponseDTO<ReplyDTO> getList(Integer bno, PageRequestDTO requestDTO);
 
+    // regist
+    Integer regist(ReplyDTO replyDTO);
+
+    // read
+    ReplyDTO read(Integer rno);
+
+    // delete
+    void delete(Integer rno);
+
 }

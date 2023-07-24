@@ -1,8 +1,29 @@
 
 // 댓글 비동기 통신 처리
+
 // list
 const getList = async (replyLast = false, page = 1) => {
 	const res = await axios.get(`${realPath}/api/replies/${bno}/list?page=${page}&replyLast=${replyLast}`)
+	return res.data
+}
+
+// regist
+// 파라미터로 data를 받아서 post 요청을 보낼 때 JSON 형식으로 HTTP Post 요청의 페이로드로 전달
+// 서버로부터의 응답은 res 객체로 받아짐
+const postRegist = async (data) => {
+	const res = await axios.post(`${realPath}/api/replies/${bno}/regist`, data)
+	return res.data
+}
+
+// read
+const getRead = async (rno) => {
+	const res = await axios.get(`${realPath}/api/replies/read/${rno}`)
+	return res.data
+}
+
+// delete
+const deleteReply = async (rno) => {
+	const res = await axios.delete(`${realPath}/api/replies/delete/${rno}`)
 	return res.data
 }
 
@@ -33,10 +54,23 @@ const getListDefault = (replyLast, page) => {
 			`
 		}
 
-		// const {page, size, startNum, endNum, prevBtn, nextBtn, replyLast, total} = arr
-		// console.log(arr)
-
+		// 댓글 페이징
+		const {page, size, startNum, endNum, prevBtn, nextBtn, replyLast, total} = arr
+		
+		prevBtn === true ? replyPagingString += `<li><button data-page="${startNum - 1}" class="btn btn-primary">이전</button></li>` : ""
+		
+		for(let i = startNum; i <= endNum; i++) {
+			replyPagingString += `
+			<li${page === i ? " class='active'" : ''}>
+			<button data-page="${i}" class="btn btn-primary">${i}</button>
+			</li>
+			`
+		}
+		
+		nextBtn === true? replyPagingString += `<li><button data-page="${endNum + 1}" class="btn btn-primary">다음</button></li>` : ""
+	
 		replyWrap.innerHTML = replyStr
-
+		replyPaging.innerHTML = replyPagingString
 	})
+
 }
