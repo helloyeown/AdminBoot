@@ -6,7 +6,7 @@
 <mapper namespace="com.board.board.mappers.ReplyMapper">
 
 <!-- list -->
-<select id="getList" resultType="org.zerock.board.dto.reply.ReplyDTO">
+<select id="getList" resultType="com.board.board.dto.reply.ReplyDTO">
     select if(rno=gno, 0, 1) as step, rno, bno, reply, replyer, replyDate, gno
     from tbl_reply
     where bno=#{bno} and rno > 0
@@ -42,7 +42,7 @@
 </insert>
 
 <!-- read -->
-<select id="read" resultType="org.zerock.board.dto.reply.ReplyDTO">
+<select id="read" resultType="com.board.board.dto.reply.ReplyDTO">
     select rno, bno, reply, replyer, exist 
     from tbl_reply 
     where rno = #{rno}
