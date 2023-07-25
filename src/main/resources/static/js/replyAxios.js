@@ -27,6 +27,12 @@ const deleteReply = async (rno) => {
 	return res.data
 }
 
+// modify
+const modifyReply = async (reply) => {
+	const res = await axios.put(`${realPath}/api/replies/modify/${reply.rno}`, reply)
+	return res.data
+}
+
 
 // list 함수로 선언
 const getListDefault = (replyLast, page) => {

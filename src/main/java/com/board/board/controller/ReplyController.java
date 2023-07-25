@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -63,6 +64,18 @@ public class ReplyController {
 		replyService.delete(rno);
 
 		return Map.of("result", rno);
+	}
+
+	// modify
+	@PutMapping("modify/{rno}")
+	public Map<String, Integer> modify(@RequestBody ReplyDTO dto){
+		
+		log.info("Reply Modify.............");
+		log.info(dto);
+
+		replyService.modify(dto);
+
+		return Map.of("result", dto.getRno());
 	}
 
 }

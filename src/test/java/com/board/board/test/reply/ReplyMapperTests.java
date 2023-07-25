@@ -47,4 +47,11 @@ public class ReplyMapperTests {
         replyMapper.delete(26);
     }
 
+    @Test
+    public void modifyTest(){
+        ReplyDTO dto = ReplyDTO.builder().reply("modify test").rno(2).build();
+
+        replyMapper.modify(dto);
+    }
+
 }

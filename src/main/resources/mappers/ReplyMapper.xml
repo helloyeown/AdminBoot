@@ -55,4 +55,11 @@
     where rno = #{rno};
 </update>
 
+<!-- modify -->
+<update id="modify">
+    update tbl_reply
+    set reply = #{reply}, replyDate = now()
+    where rno = #{rno}
+</update>
+
 </mapper>

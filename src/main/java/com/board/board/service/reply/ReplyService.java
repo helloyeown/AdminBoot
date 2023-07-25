@@ -20,4 +20,7 @@ public interface ReplyService {
     // delete
     void delete(Integer rno);
 
+    // modify
+    void modify(ReplyDTO dto);
+    
 }

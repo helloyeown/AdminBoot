@@ -54,5 +54,14 @@ public class ReplyServiceTests {
         replyService.delete(24);
     }
 
+    // modify
+    @Test
+    public void modifyTest(){
+
+        ReplyDTO dto = ReplyDTO.builder().rno(3).reply("modify test").build();
+
+        replyService.modify(dto);
+    }
+
 
 }

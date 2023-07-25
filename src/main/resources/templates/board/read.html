@@ -126,7 +126,7 @@
                                   </div>
                                   <div class="modal-footer">
                                     <button class="btn btn-primary btnRegister2">Reply Register</button>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-secondary closeReplyBtn2" data-bs-dismiss="modal">Close</button>
                                   </div>
                                 </div>
                               </div>
@@ -147,7 +147,8 @@
                                   <div class="modal-footer">
                                     <button class="btn btn-primary btnReplyModify">Reply Modify</button>
                                     <button class="btn btn-danger btnDelete">Reply Delete</button>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-secondary closeReplyBtn" data-bs-dismiss="modal">Close
+                                    </button>
                                   </div>
                                 </div>
                               </div>
@@ -165,12 +166,7 @@
           <!-- /.content -->
   </div>
 
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-  </aside>
-  <!-- /.control-sidebar -->
-  
+  <script src="path/to/bootstrap.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="/js/replyAxios.js"></script>
 </div>
@@ -179,7 +175,7 @@
 
 <script layout:fragment="script" th:inline="javascript">
 
-  const realPath = "http://" + window.location.host
+  const realPath = "http://" + window.location.host   // 도메인 이름 + 포트 번호 (localhost:8080)
   const actionForm = document.querySelector(".actionForm")
   const deleteBtn = document.querySelector(".deleteBtn")
   const replyWrap = document.querySelector(".replyWrap")
@@ -195,6 +191,9 @@
   const btnRegister2 = document.querySelector(".btnRegister2")
   const replyModal = new bootstrap.Modal(document.querySelector(".replyModal"))
   const replyGno = replyRegister2.querySelector(".replyGno")
+  const btnReplyModify = document.querySelector(".btnReplyModify")
+  const closeReplyBtn = document.querySelector(".closeReplyBtn")
+  const closeReply2Btn = document.querySelector(".closeReplyBtn2")
 
   const bno = [[${board.bno}]]
 
@@ -210,6 +209,12 @@
 
   },false)
   // /게시글 삭제
+
+  // url을 통해 삭제된 게시글로 들어갔을 때
+  // if(!exist) {
+  //   alert("삭제된 게시글입니다.")
+  //   window.location.href = realPath + "board/list"
+  // }
 
 
   // 댓글
@@ -234,13 +239,13 @@
 
     postRegist(temp).then(data => {
       alert(data.result + "번 댓글이 등록되었습니다.")
-      replyRegister.querySelector("input[name=reply]"),value = ""
+      replyRegister.querySelector("input[name=reply]").value = ""
       getListDefault()  // 입력창 비워주고 다시 리스트 가져옴
     })
   }, false)
   // /댓글 등록
 
-  // 댓글 수정/삭제 모달
+  // 댓글 모달
   replyWrap.addEventListener("click", (e) => {
     e.preventDefault()
     e.stopPropagation()
@@ -269,6 +274,7 @@
     e.preventDefault()
     e.stopPropagation()
 
+    // 모달 띄울 때 innerHTML로 심어준 값
     const rno = e.target.closest(".replyModModal").querySelector("input[name=rno]").value
     console.log("rno: " + rno)
 
@@ -280,6 +286,34 @@
     })
   })
   // /댓글 삭제
+
+  // 댓글 수정
+  btnReplyModify.addEventListener("click", (e) => {
+    e.stopPropagation()
+    e.preventDefault()
+
+    // console.log("click modify")
+
+    const rno = e.target.closest(".replyModModal").querySelector("input[name=rno]").value
+    const reply = e.target.closest(".replyModModal").querySelector("input[name=reply]").value
+    console.log("rno: " + rno)
+    console.log("reply: " + reply)
+
+    const temp = {rno, reply}
+    modifyReply(temp).then(data => {
+      alert(data.result + "번 게시글이 수정되었습니다.")
+      getListDefault()
+      replyModModal.hide()
+    })
+
+  })
+  // /댓글 수정
+
+  // 댓글 모달창 닫기
+  closeReplyBtn.addEventListener("click", (e) => {
+    replyModModal.hide()
+  })
+  // /댓글 모달창 닫기
 
   // 댓글 페이징
   replyPaging.addEventListener("click", (e) => {
@@ -305,7 +339,7 @@
     if(result === 'reply') {
       replyModal.show()
       replyRegister2.querySelector("input[name=reply]").value = ""
-      replyGno.innerHTML = `<input type="hidden" name="gno" value="%{gno}">`
+      replyGno.innerHTML = `<input type="hidden" name="gno" value="${gno}">`
     }
   }, false)
   // /대댓글 모달
@@ -324,7 +358,14 @@
     const temp = {bno, reply, replyer, gno}
     console.log(temp)
 
-  })
+    postRegist(temp).then(data => {
+      alert(data.result + "번 댓글이 등록되었습니다.")
+      replyRegister.querySelector("input[name=reply]").value = ""
+      getListDefault()
+      replyModal.hide()
+    })
+
+  }, false)
 
   // 최초 댓글 목록
   getListDefault()

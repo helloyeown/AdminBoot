@@ -31,5 +31,8 @@ public interface ReplyMapper {
     // 삭제
     int delete(Integer rno);
 
+    // 수정
+    int modify(ReplyDTO replyDTO);
+
 
 }

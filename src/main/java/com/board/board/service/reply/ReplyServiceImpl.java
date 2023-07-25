@@ -95,5 +95,10 @@ public class ReplyServiceImpl implements ReplyService {
     public void delete(Integer rno) {
         replyMapper.delete(rno);
     }
+
+    @Override
+    public void modify(ReplyDTO dto) {
+        replyMapper.modify(dto);
+    }
     
 }
