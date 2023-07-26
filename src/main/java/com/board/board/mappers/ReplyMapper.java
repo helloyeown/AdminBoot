@@ -10,6 +10,7 @@ public interface ReplyMapper {
     
     // 목록
     List<ReplyDTO> getList(@Param("bno") Integer bno, @Param("pr") PageRequestDTO pageRequestDTO);
+    // 파라미터가 2개여서 Param으로 이름을 구분해줌
 
     // total
     int getRnoCnt(Integer bno);

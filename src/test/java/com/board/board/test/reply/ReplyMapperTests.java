@@ -18,7 +18,7 @@ public class ReplyMapperTests {
 
     @Test
     public void listTest(){
-        Integer bno = 1021;
+        Integer bno = 1;
         PageRequestDTO dto = PageRequestDTO.builder().build();
 
         log.info("list Test...............");
