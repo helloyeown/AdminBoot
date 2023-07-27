@@ -107,7 +107,7 @@ public class BoardServiceImpl implements BoardService {
         // 게시글 삭제하면서 파일도 함께 삭제
         boardMapper.delete(bno);
         fileMapper.deleteImage(bno);
-
+ 
     }
 
     // 수정
