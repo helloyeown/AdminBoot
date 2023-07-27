@@ -37,7 +37,7 @@ const modifyReply = async (reply) => {
 // list 함수로 선언
 const getListDefault = (replyLast, page) => {
 	getList(replyLast, page).then(arr => {
-		console.log(arr)
+		// console.log(arr)
 		
 		let replyStr = ""
 		let replyPagingString = ""
@@ -45,8 +45,10 @@ const getListDefault = (replyLast, page) => {
 		for(let i=0; i<arr.list.length; i++){
 			const {reply, replyer, replyDate, step, gno, rno} = arr.list[i]
 
+			console.log(arr.list[i])
+
 			replyStr += `
-				<div class="d-flex align-items-center py-3 border-top${step === 0 ? "" : " ps-3"}">
+				<div class="d-flex align-items-center py-3 border-top" style=" ${step === 0 ? "" : "margin-left:30px"} ">
 					<div class="w-100">
 						<div class="d-flex w-100 justify-content-between">
 							<h6 class="mb-0">${reply}</h6>
@@ -68,7 +70,7 @@ const getListDefault = (replyLast, page) => {
 		for(let i = startNum; i <= endNum; i++) {
 			replyPagingString += `
 			<li${page === i ? " class='active'" : ''}>
-			<button data-page="${i}" class="btn btn-primary">${i}</button>
+				<button data-page="${i}" class="btn btn-primary">${i}</button>
 			</li>
 			`
 		}

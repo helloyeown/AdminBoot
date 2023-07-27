@@ -193,7 +193,8 @@
   const replyGno = replyRegister2.querySelector(".replyGno")
   const btnReplyModify = document.querySelector(".btnReplyModify")
   const closeReplyBtn = document.querySelector(".closeReplyBtn")
-  const closeReply2Btn = document.querySelector(".closeReplyBtn2")
+  const closeReplyBtn2 = document.querySelector(".closeReplyBtn2")
+  const btnClose = document.querySelector(".btnClose")
 
   const bno = [[${board.bno}]]
 
@@ -315,6 +316,12 @@
   })
   // /댓글 모달창 닫기
 
+  //
+  closeReplyBtn2.addEventListener("click", (e) => {
+    console.log("closeReplyBtn2")
+    replyModal.hide()
+  })
+
   // 댓글 페이징
   replyPaging.addEventListener("click", (e) => {
     e.stopPropagation()
@@ -354,6 +361,11 @@
     const reply = replyRegister2.querySelector("input[name=reply]").value
     const replyer = replyRegister2.querySelector("input[name=replyer]").value
     const gno = replyRegister2.querySelector("input[name=gno]").value
+
+    if(reply === '' || reply.trim().length <= 0) {
+      alert("댓글 내용을 입력해주세요.")
+      return
+    }
 
     const temp = {bno, reply, replyer, gno}
     console.log(temp)

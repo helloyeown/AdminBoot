@@ -148,8 +148,11 @@
     e.stopPropagation()
     e.preventDefault()
 
-    if(typeObj.options[typeObj.selectedIndex].value === '' && keywordObj.value !== '') {
+    if(typeObj.options[typeObj.selectedIndex].value === "") {
       alert("검색 조건을 선택해주세요.")
+      return
+    } else if(keywordObj.value === '') {
+      alert("검색어를 입력해주세요.")
       return
     }
 

@@ -6,11 +6,46 @@
 <mapper namespace="com.board.board.mappers.BoardMapper">
 
 
-<select id="getList" resultType="com.board.board.dto.BoardDTO">
+<select id="getList" resultType="com.board.board.dto.BoardListDTO">
+    select br.bno, br.title, br.writer, br.dueDate, group_concat(distinct pi.uuid,'_',pi.file_name) as fileName
+    from 
+    (select b.bno, b.title, b.content, b.writer, b.dueDate
+    from tbl_board b
+    left join tbl_reply r on r.bno = b.bno
+    where b.bno > 0 and b.exist = true
+    <if test="keyword != null and types != null">
+      <trim prefix="and (" prefixOverrides="or" suffix=")">
+        <foreach collection="types" item="type" separator=" or ">
+          <if test='type == "t"'>
+            b.title like concat('%', #{keyword}, '%')
+          </if>
+          <if test='type == "c"'>
+            b.content like concat('%', #{keyword}, '%')
+          </if>
+          <if test='type == "w"'>
+            b.writer like concat('%', #{keyword}, '%')
+          </if>
+        </foreach>
+      </trim>
+    </if>
+    group by b.bno
+    order by b.bno desc
+    limit #{skip}, #{size}) as br
+    
+    left outer join tbl_file pi
+    on pi.bno = br.bno
+    and (pi.ord = 0 or pi.ord is null)
+
+    group by br.bno
+    order by br.bno desc
+</select>
+
+<!--
+<select id="getList" resultType="com.board.board.dto.BoardListDTO">
     select * from tbl_board where exist=true 
     <if test="keyword !=null and types != null">
         <trim prefix="and (" prefixOverrides="or" suffix=")">
-        <!-- 앞에 and ( 붙이고 )로 닫아줌, or가 필요 없을 때 or를 지워줌 -->
+        앞에 and ( 붙이고 )로 닫아줌, or가 필요 없을 때 or를 지워줌
             <foreach collection="types" item="type" separator=" OR ">
                 <if test='type == "t"'>
                     title like concat('%', #{keyword}, '%')
@@ -26,6 +61,7 @@
     </if>
     order by bno desc limit #{skip}, #{size}
 </select>
+-->
 
 <!-- getListCount -->
 <select id="getCountEnd" resultType="long">
@@ -66,7 +102,7 @@
 
 <update id="delete">
     update tbl_board set
-    title = '', content = '', writer = '', regDate = null, updateDate = now(),
+    title = '', content = '', writer = '', dueDate = null, updateDate = now(),
     exist = false 
     where bno=#{bno}
 </update>

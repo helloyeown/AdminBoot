@@ -1,7 +1,9 @@
 package com.board.board.test;
 
 import com.board.board.dto.BoardDTO;
+import com.board.board.dto.BoardRegisterDTO;
 import com.board.board.dto.PageResponseDTO;
+import com.board.board.mappers.FileMapper;
 import com.board.board.service.BoardService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +17,10 @@ import lombok.extern.log4j.Log4j2;
 public class BoardServiceTest {
     
     @Autowired(required = false)
-    BoardService boardService;
+    private BoardService boardService;
+
+    @Autowired
+    private FileMapper fileMapper;
 
 
     @Test
@@ -47,7 +52,7 @@ public class BoardServiceTest {
 
     @Test
     public void delete(){
-        boardService.delete(65627);
+        boardService.delete(1024);
     }
 
 
@@ -86,5 +91,6 @@ public class BoardServiceTest {
         log.info(result + "================");
 
     }
+
 
 }

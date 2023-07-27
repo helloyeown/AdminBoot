@@ -3,6 +3,8 @@ package com.board.board.test;
 import java.util.List;
 
 import com.board.board.dto.BoardDTO;
+import com.board.board.dto.BoardListDTO;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -74,11 +76,9 @@ public class BoardDAOTest {
     public void getListTest(){
 
         PageRequestDTO dto = PageRequestDTO.builder()
-        .keyword("오")
-        .type("t")
         .build();
         
-        List<BoardDTO> list = boardMapper.getList(dto);
+        List<BoardListDTO> list = boardMapper.getList(dto);
 
         log.info("getList Test...........");
         log.info(list);

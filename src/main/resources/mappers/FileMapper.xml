@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.board.board.mappers.FileMapper">
+
+<!-- 파일 등록 -->
+<insert id="registFile">
+    insert into tbl_file (uuid, file_name, bno, ord) values
+    <foreach collection="list" item="file" separator=",">
+        ( #{file.uuid}, #{file.fileName}, #{file.bno}, #{file.ord} )
+    </foreach>
+</insert>
+
+<!-- 파일 삭제 -->
+<delete id="deleteImage">
+    delete from tbl_file where bno=#{bno}
+</delete>
+
+</mapper>

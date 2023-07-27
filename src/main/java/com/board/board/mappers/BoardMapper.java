@@ -3,15 +3,17 @@ package com.board.board.mappers;
 import java.util.List;
 
 import com.board.board.dto.BoardDTO;
+import com.board.board.dto.BoardListDTO;
+import com.board.board.dto.BoardRegisterDTO;
 import com.board.board.dto.PageRequestDTO;
 
 public interface BoardMapper {
     
-    List<BoardDTO> getList(PageRequestDTO pageRequestDTO);
+    List<BoardListDTO> getList(PageRequestDTO pageRequestDTO);
 
     long getCountEnd(PageRequestDTO pageRequestDTO);
 
-    int regist(BoardDTO boardDTO);
+    int regist(BoardRegisterDTO boardRegisterDTO);
 
     BoardDTO getOne(int bno);
 

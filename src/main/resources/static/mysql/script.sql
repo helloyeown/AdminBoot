@@ -62,3 +62,12 @@ insert into tbl_board (title, content, writer)
 (select title, content, writer from tbl_board);
 
 ALTER TABLE tbl_reply ADD replyLast boolean;
+
+CREATE TABLE tbl_file (
+	uuid varchar(50) PRIMARY KEY,
+	file_name varchar(200) not null,
+	bno int not null,
+	ord int default 0 not null,
+	FOREIGN KEY (bno) REFERENCES tbl_board(bno) ON DELETE cascade
+)
+;

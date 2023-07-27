@@ -1,12 +1,15 @@
 package com.board.board.controller;
 
 import com.board.board.dto.BoardDTO;
+import com.board.board.dto.BoardRegisterDTO;
 import com.board.board.dto.PageResponseDTO;
 import com.board.board.service.BoardService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import com.board.board.dto.PageRequestDTO;
 
 import lombok.RequiredArgsConstructor;
@@ -70,9 +73,11 @@ public class BoardController {
 
     // 등록
     @PostMapping("regist")
-    public String register(BoardDTO boardDTO){
+    public String register(BoardRegisterDTO boardDTO, RedirectAttributes rttr){
         
         boardService.insert(boardDTO);
+
+        rttr.addFlashAttribute("message", "게시물이 등록되었습니다.");
 
         return "redirect:/board/list";
     }

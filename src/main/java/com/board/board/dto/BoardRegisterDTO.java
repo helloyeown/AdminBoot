@@ -2,27 +2,23 @@ package com.board.board.dto;
 
 import java.util.List;
 
+import org.apache.ibatis.type.Alias;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-@ToString
 @Builder
-public class BoardDTO {
+public class BoardRegisterDTO {
     
-    private int bno;
+    private Integer bno;
     private String title;
     private String content;
     private String writer;
-    private String dueDate;
-    private String updateDate;
-    private boolean exist;
 
-    private List<String> fileNames;
+    private List<String> fileNames;     // 파일업로드 파일명 저장
 
 }
