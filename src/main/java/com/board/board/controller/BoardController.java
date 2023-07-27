@@ -1,6 +1,7 @@
 package com.board.board.controller;
 
 import com.board.board.dto.BoardDTO;
+import com.board.board.dto.BoardListDTO;
 import com.board.board.dto.BoardRegisterDTO;
 import com.board.board.dto.PageResponseDTO;
 import com.board.board.service.BoardService;
@@ -63,7 +64,7 @@ public class BoardController {
         log.info(pageRequestDTO);
         log.info("====================================================================");
 
-        PageResponseDTO<BoardDTO> list = boardService.getList(pageRequestDTO);
+        PageResponseDTO<BoardListDTO> list = boardService.getList(pageRequestDTO);
         log.info("-------------------------");
         log.info(list);
         log.info(pageRequestDTO);

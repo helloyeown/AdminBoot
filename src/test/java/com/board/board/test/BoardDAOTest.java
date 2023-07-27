@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.board.board.dto.BoardDTO;
 import com.board.board.dto.BoardListDTO;
+import com.board.board.dto.BoardRegisterDTO;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

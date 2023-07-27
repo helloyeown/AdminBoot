@@ -6,6 +6,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import com.board.board.dto.BoardDTO;
+import com.board.board.dto.BoardListDTO;
 import com.board.board.dto.BoardRegisterDTO;
 
 import org.springframework.stereotype.Service;
@@ -28,14 +29,14 @@ public class BoardServiceImpl implements BoardService {
 
     // 목록
     @Override
-    public PageResponseDTO<BoardDTO> getList(PageRequestDTO pageRequestDTO) {
+    public PageResponseDTO<BoardListDTO> getList(PageRequestDTO pageRequestDTO) {
 
-        List<BoardDTO> list = boardMapper.getList(pageRequestDTO);
+        List<BoardListDTO> list = boardMapper.getList(pageRequestDTO);
         long total = boardMapper.getCountEnd(pageRequestDTO);
         log.info("----------------" + pageRequestDTO.getType());
         log.info("----------------" + pageRequestDTO.getTypes());
 
-		return PageResponseDTO.<BoardDTO>withAll()
+		return PageResponseDTO.<BoardListDTO>withAll()
 						.list(list)
 						.total(total)
                         .pageRequestDTO(pageRequestDTO)

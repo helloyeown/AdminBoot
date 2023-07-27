@@ -1,6 +1,7 @@
 package com.board.board.service;
 
 import com.board.board.dto.BoardDTO;
+import com.board.board.dto.BoardListDTO;
 import com.board.board.dto.BoardRegisterDTO;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +15,7 @@ public interface BoardService {
     void modify(BoardDTO boardDTO);
 
     // 목록
-    PageResponseDTO<BoardDTO> getList(PageRequestDTO pageRequestDTO);
+    PageResponseDTO<BoardListDTO> getList(PageRequestDTO pageRequestDTO);
 
     // 등록
     void insert(BoardRegisterDTO dto);

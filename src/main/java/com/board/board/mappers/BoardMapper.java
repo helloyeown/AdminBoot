@@ -13,7 +13,7 @@ public interface BoardMapper {
 
     long getCountEnd(PageRequestDTO pageRequestDTO);
 
-    int regist(BoardRegisterDTO boardRegisterDTO);
+    int regist(BoardDTO boardRegisterDTO);
 
     BoardDTO getOne(int bno);
 
