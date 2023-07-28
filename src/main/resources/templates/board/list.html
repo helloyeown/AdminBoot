@@ -24,7 +24,7 @@
             <div class="col-md-12">
               <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title">Bordered Table</h3>
+                  <h3 class="card-title"><a href="/board/list">Bordered Table</a></h3>
                 </div>
                 <td>
                     <div class="col-md-1">
@@ -67,6 +67,7 @@
                       <th>Content</th>
                       <th style="width: 150px">Writer</th>
                       <th style="width: 250px;">Date</th>
+                      <th style="width: 80px;">Image</th>
                     </tr>
                     </thead>
                     
@@ -78,7 +79,16 @@
                         <td th:text="${board.title}">title</td>
                         <td th:text="${board.content}">content</td>
                         <td th:text="${board.writer}">writer</td>
-                        <td th:utext="${board.dueDate}">date</td>
+                        <td th:utext="${#temporals.format(board.dueDate, 'yyyy-MM-dd')}">date</td>
+
+                        <td class="ellipsis">
+                          <a th:href="@{|/board/read/${board.bno}?${pageRequestDTO.link}|}">
+                            <img th:if="${board.fileName}" th:src="|http://localhost/s_${board.fileName}|" height="50" width="50" />
+                            <!-- <img th:unless="${board.fileName}" th:src="|http://localhost/noimage.png|" width="80" /> -->
+                            <!-- <span style="margin-left: 5px;">[[${board.title}]]</span> -->
+                          </a>
+                        </td>
+
                       </tr>
                       </tbody>
                   </table>

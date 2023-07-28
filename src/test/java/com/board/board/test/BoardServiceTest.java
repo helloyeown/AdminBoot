@@ -5,6 +5,11 @@ import com.board.board.dto.BoardRegisterDTO;
 import com.board.board.dto.PageResponseDTO;
 import com.board.board.mappers.FileMapper;
 import com.board.board.service.BoardService;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -38,11 +43,15 @@ public class BoardServiceTest {
     @Test
     public void modify(){
         
+        List<String> list = new ArrayList<>();
+        list.add(UUID.randomUUID().toString() + "_" + "test2.jpg");
+
         BoardDTO boardDTO = BoardDTO.builder()
-                    .bno(65631)
-                    .title("수정")
+                    .bno(1053)
+                    .title("modify test")
                     .content("new content")
                     .writer("new writer")
+                    .fileNames(list)
                     .build();
 
         boardService.modify(boardDTO);
@@ -59,7 +68,7 @@ public class BoardServiceTest {
     @Test
     public void read(){
 
-        BoardDTO dto = boardService.read(65628);
+        BoardDTO dto = boardService.read(1053);
 
         log.info(dto);
 
@@ -78,15 +87,13 @@ public class BoardServiceTest {
     @Test
     public void registTest(){
         
-        BoardDTO dto = BoardDTO.builder()
+        BoardRegisterDTO dto = BoardRegisterDTO.builder()
             .title("new title")
             .content("new content")
             .writer("new writer")
             .build();
 
-        int result = boardService.insert(dto);
-
-        log.info(result + "================");
+        boardService.insert(dto);
 
     }
 

@@ -1,5 +1,6 @@
 package com.board.board.service;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -115,8 +116,41 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public void modify(BoardDTO boardDTO) {
         
-        boardMapper.modify(boardDTO);
+        // 수정 업데이트
+        int count = boardMapper.modify(boardDTO);
+
+        // 기존 파일 삭제
+        fileMapper.deleteImage(boardDTO.getBno());
     
+        // 파일 이름 list로 가져오기
+        List<String> fileNames = boardDTO.getFileNames();
+
+        // 게시판, 파일 등록 성공하면 실행
+        if(count > 0) {
+            Integer bno = boardDTO.getBno();
+
+            AtomicInteger index = new AtomicInteger();
+
+            // 등록된 파일 fileNames에서 추출
+            List<Map<String, String>> list = fileNames.stream().map(str -> {
+
+                    log.info("----------------------");
+                    log.info("----------------------");
+                    log.info(str);
+                    log.info(str.length());
+
+                    log.info("----------------------");
+
+                String uuid = str.substring(0, 36);
+                String fileName = str.substring(37);
+
+                return Map.of("uuid", uuid, "fileName", fileName, "bno", "" + bno, "ord", "" + index.getAndIncrement());
+            }).collect(Collectors.toList());
+
+            fileMapper.registFile(list);
+        }
+
+
     }
 
 }

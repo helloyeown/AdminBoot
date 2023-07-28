@@ -41,8 +41,10 @@ public class BoardController {
 
     // 수정
     @PostMapping("modify/{bno}")
-    public String modify(@PathVariable int bno, BoardDTO boardDTO, PageRequestDTO pageRequestDTO){
+    public String modify(@PathVariable int bno, BoardDTO boardDTO, PageRequestDTO pageRequestDTO, RedirectAttributes rttr){
+
         boardService.modify(boardDTO);
+        rttr.addFlashAttribute("message", boardDTO.getBno() + "번 게시물이 수정되었습니다.");
 
         return "redirect:/board/read/" + bno;
 

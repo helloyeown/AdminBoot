@@ -121,9 +121,30 @@ select b.bno, b.title, b.content, b.writer, b.dueDate, count(r.rno) as replycnt,
     </selectKey>
 </insert>
 
-<select id="getOne" resultType="com.board.board.dto.BoardDTO">
-    select * from tbl_board where bno = #{bno}
+<select id="getOne" resultMap="fileListMap">
+    <!-- select * from tbl_board where bno = #{bno} -->
+    select tb.bno, tb.title, tb.content, tb.writer, tb.updateDate, tb.exist, concat(pi.uuid, '_', pi.file_name) as fileNames
+    from tbl_board tb left outer join tbl_file pi
+    on pi.bno = tb.bno
+    where tb.bno = #{bno}
 </select>
+
+  <!-- read - file (resultMap) -->
+  <resultMap id="fileListMap" type="com.board.board.dto.BoardDTO">
+    <id property="bno" column="bno"/>
+    <result property="title" column="title"/>
+    <result property="content" column="content"/>
+    <result property="writer" column="writer"/>
+    <result property="dueDate" column="dueDate"/>
+    <result property="updateDate" column="updateDate"/>
+    <result property="exist" column="exist"/>
+    <collection property="fileNames" resultMap="fileMap"/>
+  </resultMap>
+
+  <resultMap id="fileMap" type="string">
+    <result property="fileNames" column="fileNames"/>
+  </resultMap>
+  <!-- //read - file (resultMap) -->
 
 <update id="modify">
     update tbl_board set title=#{title}, content=#{content}, updateDate=now() where bno=#{bno}

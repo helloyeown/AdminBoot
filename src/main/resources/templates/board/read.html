@@ -56,19 +56,19 @@
                                   th:value="${board.writer}">
                                 </div>
 
+                                <div class="form-group">
                                 <th:block th:if="${board.fileNames}">
-                                  <div class="form-group">
-                                    <label>Writer</label>
+                                    <label>File</label>
                                     <div class="uploadWrap mb-3">
                                     <ul class="uploadUL">
-                                      <li th:each="list: ${board.fileNames}">
+                                      <li style="list-style: none" th:each="list: ${board.fileNames}">
                                         <a th:href="@{|http://localhost/${list}|}" target="_blank" style="height: 100px;">
                                           <img th:src="|http://localhost/${list}|" height="100"/>
                                         </a>
                                       </li>
                                     </ul>
-                                   </div>
                                   </th:block>
+                                </div>
                               </div>
                               <!-- /.card-body -->
               

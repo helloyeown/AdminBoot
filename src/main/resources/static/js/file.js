@@ -32,4 +32,13 @@ const removeFile = (e, uuid, fileName) => {
 
     let originFile = ""
     fileName !== undefined ? originFile = uuid + "_" + fileName : originFile = uuid
+
+    console.log(originFile)
+
+    // nginx에서 파일 삭제
+    axios.delete(`http://localhost:8080/api/files/remove/${originFile}`)
+
+    // li 삭제
+    liObj.remove()
+
 }

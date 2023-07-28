@@ -49,7 +49,7 @@ public class BoardDAOTest {
     @Test
     public void getone(){
 
-        BoardDTO dto = boardMapper.getOne(65628);
+        BoardDTO dto = boardMapper.getOne(1053);
 
         log.info(dto);
 
@@ -60,7 +60,7 @@ public class BoardDAOTest {
     @Test
     public void insertTest(){
 
-        BoardDTO dto = BoardDTO.builder()
+        BoardRegisterDTO dto = BoardRegisterDTO.builder()
                     .title("new title")
                     .content("new content")
                     .writer("new writer")

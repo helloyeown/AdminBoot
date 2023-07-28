@@ -37,7 +37,7 @@
                                             </div>
                                             <!-- /.card-header -->
                                             <!-- form start -->
-                                            <form class="actionForm">
+                                            <form name="frm" method="post" class="formData">
 
                                                 <input type="hidden" class="form-control" name="bno"
                                                        th:value="${board.bno}">
@@ -60,44 +60,162 @@
                                                         <input type="text" class="form-control" name="writer"
                                                                th:value="${board.writer}">
                                                     </div>
+
+                                                    <div class="form-group">
+                                                        <label for="exampleInputFile">File</label>
+                                                            <div class="input-group">
+                                                                <div class="custom-file">
+                                                                <input type="file" multiple class="custom-file-input uploadInput" id="exampleInputFile" name="upload">
+                                                                <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                                                </div>
+                                                                <div class="input-group-append">
+                                                                <span class="input-group-text" id="">Upload</span>
+                                                                </div>
+                                                            </div>
+                                                    </div>
+
+                                                    <div class="uploadHidden"></div>
+                                                        </form>
+                                                        <div class="uploadWrap mb-3">
+                                                            <ul class="uploadUL">
+                                                            <th:block th:each="list: ${board.fileNames}">
+                                                            <li style="list-style: none" th:data-originName="${list}">
+                                                                <a th:href="@{|http://localhost/${list}|}" target="_blank" style="height: 100px;">
+                                                                <img th:src="|http://localhost/${list}|" height="100" width="100"/>
+                                                                </a>
+                                                                <button class="btn btn-danger" th:onclick="removeFile(event, [[${list}]])">X</button>
+                                                            </li>
+                                                            </th:block>
+                                                            </ul>
+                                                        </div>
+
                                                 </div>
                                                 <!-- /.card-body -->
 
                                                 <div class="card-footer">
-                                                    [[${pageRequestDTO}]]
                                                     <a th:href="@{|/board/read/${bno}?${pageRequestDTO.link}|}" class="btn btn-primary listBtn">CANCEL</a>
-                                                    <button type="submit" class="btn btn-info modifyBtn">MODIFY</button>
+                                                    <button type="submit" class="btn btn-info modifyBtn btnAdd">MODIFY</button>
                                                     <button type="submit" class="btn btn-danger deleteBtn">DELTE</button>
                                             </form>
 
                                         </div>
                                         </form>
                                     </div>
-                                    <!-- /.card -->
-                                </div>
-                                <!--/.col (left) -->
-                            </div>
-                        </div>
-                        <!-- /.card-body -->
+                                    
+                                    <div class="modal deleteModal" tabindex="-1" role="dialog">
+                                        <form method="post" class="actionForm">
+                                        <div class="modal-dialog" role="document">
+                                          <div class="modal-content">
+                                            <div class="modal-body">정말 삭제 하시겠습니까?</div>
+                                            <div class="modal-footer">
+                                              <button type="button" class="btn btn-primary btnDeleteModal" data-bs-dismiss="modal">Confirm</button>
+                                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        </form>
+                                      </div>
+
+                                      <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+                                      <script src="/js/file.js"></script>
                         <div class="card-footer clearfix">
                         </div>
                     </div>
-                    <!-- /.card -->
         </section>
-        <!-- /.content -->
     </div>
-    <!-- /.content-wrapper -->
 </div>
 
 
 <script layout:fragment="script" th:inline="javascript">
 
-      const actionForm = document.querySelector(".actionForm");
-      const modifyBtn = document.querySelector(".modifyBtn");
-      const deleteBtn = document.querySelector(".deleteBtn");
-      const listBtn = document.querySelector(".listBtn");
+    const actionForm = document.querySelector(".actionForm");
+    const modifyBtn = document.querySelector(".modifyBtn");
+    const btnDelete = document.querySelector(".deleteBtn");
+    const listBtn = document.querySelector(".listBtn");
+    const btnAdd = document.querySelector(".btnAdd")
+    const uploadInput = document.querySelector(".uploadInput")
+    const uploadUL = document.querySelector(".uploadUL")
+    const uploadHidden = document.querySelector(".uploadHidden")
+    const deleteModal = new bootstrap.Modal(document.querySelector(".deleteModal"))
+    const btnDeleteModal = document.querySelector(".btnDeleteModal")
 
-      const bno = [[${board.bno}]]
+
+    // 파일 업로드
+    uploadInput.addEventListener("change", (e) => {
+
+      // file 없으면 리턴
+      if(!uploadInput.files || uploadInput.files.length === 0) {
+        return
+      }
+
+      // 웹에서 폼 데이터를 쉽게 생성하고 전송할 수 있도록 도와주는 기능 제공
+      const formData = new FormData()
+      console.dir(uploadInput)
+
+      // formData에 파일 넣기
+      for(let i=0; i < uploadInput.files.length; i++) {
+        // files라는 이름으로 폼데이터에 파일을 하나씩 저장
+        formData.append("files", uploadInput.files[i])
+      }
+
+      // http 헤더 타입 지정
+      const header = {headers: {"Content-Type": "multipart/form-data"}}
+
+      // 파일 업로드 axios 호출
+      axios.post("http://localhost:8080/api/files/upload", formData, header).then(res => {
+        const result = res.data
+        console.dir("result: " + result)
+        showImages(result)
+      })
+    })
+    // / 파일 업로드
+
+    // 수정 버튼 클릭
+    btnAdd.addEventListener("click", (e) => {
+      // console.log(frm.title.value.trim().length)
+
+      if(frm.title.value.trim().length <= 0) {
+        alert("제목을 입력해주세요.")
+      } else if (frm.content.value.trim().length <= 0) {
+        alert("내용을 입력해주세요.")
+      } else if (frm.writer.value.trim().length <= 0) {
+        alert("작성자를 입력해주세요.")
+      } else {
+
+        // li 모두 선택
+        const liArr = uploadUL.querySelectorAll("li")
+
+        // li 갯수만큼 for문 돌려서 input hidden으로 심음
+        let str = ""
+        for(let liObj of liArr) {
+          const originName = liObj.getAttribute("data-originName")
+          str += `<input type="hidden" name="fileNames" value="${originName}">`
+        }
+
+
+        uploadHidden.innerHTML += str
+        frm.submit()
+
+      }
+    }, false)
+
+    //삭제 modal show
+    btnDelete.addEventListener("click", e => {
+      deleteModal.show()
+    }, false)
+    //삭제처리
+    btnDeleteModal.addEventListener("click", e => {
+      actionForm.setAttribute("action",`/board/delete/${bno}`)
+      actionForm.submit()
+    }, false)
+
+    //삭제된 게시물은 list로 return처리
+    if(!exist){
+      alert("삭제된 게시물 입니다.");
+      window.location.href = "http://" + window.location.host + "/board/list"
+    }
+
+    const bno = [[${board.bno}]]
 
     //   listBtn.addEventListener("click", e => {
     //     e.preventDefault();
@@ -106,14 +224,14 @@
     //     window.location.href = "/board/list";
     //   })
 
-      modifyBtn.addEventListener("click", e => {
-        e.stopPropagation();
-        e.preventDefault();
+    // modifyBtn.addEventListener("click", e => {
+    //     e.stopPropagation();
+    //     e.preventDefault();
 
-        actionForm.setAttribute("action", `/board/modify/${bno}`);
-        actionForm.setAttribute("method", `post`);
-        actionForm.submit();
-      }, false)
+    //     actionForm.setAttribute("action", `/board/modify/${bno}`);
+    //     actionForm.setAttribute("method", `post`);
+    //     actionForm.submit();
+    // }, false)
 
     </script>
 
