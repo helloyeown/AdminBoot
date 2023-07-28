@@ -152,7 +152,7 @@ select b.bno, b.title, b.content, b.writer, b.dueDate, count(r.rno) as replycnt,
 
 <update id="delete">
     update tbl_board set
-    title = '', content = '', writer = '', regDate = null, updateDate = now(),
+    title = '', content = '', writer = '', dueDate = null, updateDate = now(),
     exist = false 
     where bno=#{bno}
 </update>

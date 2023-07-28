@@ -77,7 +77,6 @@
                                       LIST</a>
                                   <a th:href="@{|/board/modify/${board.bno}?${pageRequestDTO.link}|}" class="btn btn-info modifyBtn">
                                     MODIFY</a>
-                                  <button type="submit" class="btn btn-danger deleteBtn">DELTE</button>
                             </form>
 
                               </div>
@@ -191,7 +190,6 @@
 
   const realPath = "http://" + window.location.host   // 도메인 이름 + 포트 번호 (localhost:8080)
   const actionForm = document.querySelector(".actionForm")
-  const deleteBtn = document.querySelector(".deleteBtn")
   const replyWrap = document.querySelector(".replyWrap")
   const replyPaging = document.querySelector(".replyPaging")
   const replyRegister = document.querySelector(".replyRegister")
@@ -226,10 +224,10 @@
   // /게시글 삭제
 
   // url을 통해 삭제된 게시글로 들어갔을 때
-  // if(!exist) {
-  //   alert("삭제된 게시글입니다.")
-  //   window.location.href = realPath + "board/list"
-  // }
+  if(!exist) {
+    alert("삭제된 게시글입니다.")
+    window.location.href = realPath + "board/list"
+  }
 
 
   // 댓글
